@@ -13,7 +13,7 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive",
 ]
 
-SPREADSHEET_ID = "1cdSwUUx9WoNJ-uXuf3L_emcmZfwLEx4b8rFXnTNyW1I"
+SPREADSHEET_ID = "1nOUJdEgxwSqbUJTa1j5nesXRlzu_qm_gjQmBRKtDgpw"
 SHEET_NAME = "Página1"
 SHEET_TURNOS = "Turno"   # nome da aba com os turnos
 
