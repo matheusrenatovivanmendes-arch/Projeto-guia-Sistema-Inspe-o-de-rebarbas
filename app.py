@@ -52,8 +52,9 @@ def get_sheet():
         st.error(f"❌ Aba '{SHEET_NAME}' não encontrada.")
         st.stop()
     except Exception as e:
-        st.error(f"❌ Erro de conexão: {e}")
-        st.stop()
+       import traceback
+       st.error(f"❌ Erro de conexão: {e}")
+       st.code(traceback.format_exc())
 
 @st.cache_data(ttl=60)
 def get_turnos() -> list:
