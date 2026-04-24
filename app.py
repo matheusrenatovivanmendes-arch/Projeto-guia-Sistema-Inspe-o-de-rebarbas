@@ -36,15 +36,13 @@ CABECALHO = [
 @st.cache_resource
 def get_sheet():
     try:
-        creds = Credentials.from_service_account_file(
-            "credentials.json", scopes=SCOPES
+        creds = Credentials.from_service_account_info(
+            dict(st.secrets["gcp_service_account"]),
+            scopes=SCOPES
         )
         client = gspread.authorize(creds)
         sheet = client.open_by_key(SPREADSHEET_ID).worksheet(SHEET_NAME)
         return sheet
-    except FileNotFoundError:
-        st.error("❌ credentials.json não encontrado.")
-        st.stop()
     except gspread.exceptions.SpreadsheetNotFound:
         st.error("❌ Planilha não encontrada. Verifique o SPREADSHEET_ID.")
         st.stop()
@@ -55,31 +53,21 @@ def get_sheet():
         st.error(f"❌ Erro de conexão: {e}")
         st.stop()
 
-
 @st.cache_data(ttl=60)
 def get_turnos() -> list:
-    """
-    Lê a aba 'turno' da mesma planilha e retorna a lista de turnos.
-    A aba deve ter os turnos na coluna A (um por linha), sem cabeçalho.
-    Exemplo:
-        1° Turno (06h-14h)
-        2° Turno (14h-22h)
-        3° Turno (22h-06h)
-    Se a aba não existir ou estiver vazia, retorna valores padrão.
-    """
     try:
-        creds = Credentials.from_service_account_file(
-            "credentials.json", scopes=SCOPES
+        creds = Credentials.from_service_account_info(
+            dict(st.secrets["gcp_service_account"]),
+            scopes=SCOPES
         )
         client = gspread.authorize(creds)
         aba = client.open_by_key(SPREADSHEET_ID).worksheet(SHEET_TURNOS)
-        valores = aba.col_values(1)   # coluna A
+        valores = aba.col_values(1)
         turnos = [v.strip() for v in valores if v.strip()]
         if turnos:
             return turnos
     except Exception:
         pass
-    # Fallback padrão caso a aba não exista ou esteja vazia
     return [
         "1° Turno (06h-14h)",
         "2° Turno (14h-22h)",
