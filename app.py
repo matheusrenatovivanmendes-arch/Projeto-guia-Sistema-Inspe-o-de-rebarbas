@@ -1,7 +1,9 @@
 import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
-from datetime import datetime, date
+from datetime import date
+from zoneinfo import ZoneInfo
+from datetime import datetime
 
 # ─────────────────────────────────────────
 # CONFIGURAÇÃO
@@ -360,9 +362,9 @@ sheet = get_sheet()
 criar_cabecalho_se_necessario(sheet)
 
 col1, col2, col3 = st.columns(3)
-data_registro = date.today()
-hora_registro = datetime.now().time()
-
+agora = datetime.now(ZoneInfo("America/Sao_Paulo"))
+data_registro = agora.date()
+hora_registro = agora.time()
 col1, col2, col3 = st.columns(3)
 with col1:
     st.text_input("📅 Data", value=data_registro.strftime("%d/%m/%Y"), disabled=True)
