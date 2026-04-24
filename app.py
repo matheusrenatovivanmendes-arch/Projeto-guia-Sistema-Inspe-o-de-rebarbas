@@ -422,9 +422,7 @@ with col2:
         help="Contador total acumulado da máquina",
     )
 
-observacoes = st.text_area("📝 Observações", placeholder="Campo livre para observações...", height=80)
 
-st.divider()
 
 enviado = st.button(
     "Registrar",
